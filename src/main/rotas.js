@@ -9,7 +9,7 @@ import {Route, Switch, HashRouter} from 'react-router-dom'
 function Rotas(){
     return(
         <HashRouter>
-            <switch>
+            <switch >
                 <Route path="/home" component={Home}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/cadastro-usuarios" component={CadastroUsuario}/>
