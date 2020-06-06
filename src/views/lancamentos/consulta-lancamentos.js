@@ -58,15 +58,32 @@ class ConsultaLancamentos extends React.Component {
     }
 
     abrirConfirmacao = (lancamento) => {
-        this.setState({showConfirmDialog: true, lancamentoDeletar: lancamento })
+        this.setState({ showConfirmDialog: true, lancamentoDeletar: lancamento })
     }
 
     cancelarDelecao = () => {
-        this.setState({showConfirmDialog: false, lancamentoDeletar: {} })
+        this.setState({ showConfirmDialog: false, lancamentoDeletar: {} })
     }
 
     preparaFormularioCadastro = () => {
         this.props.history.push('/cadastro-lancamentos')
+    }
+
+    alterarStatus = (lancamento, status) => {
+        this.service
+            .atualizarStatus(lancamento.id, status)
+            .then(response => {
+                const lancamentos = this.state.lancamentos;
+                const index = lancamentos.indexOf(lancamento)
+
+                if (index !== -1) {
+                    lancamento['status'] = status;
+                    lancamentos[index] = lancamento;
+                    this.setState({ lancamento })
+                }
+                messages.mensagemSucesso("Status atualizado com sucesso!")
+            })
+
     }
 
     deletar = () => {
@@ -76,7 +93,7 @@ class ConsultaLancamentos extends React.Component {
                 const lancamentos = this.state.lancamentos;
                 const index = lancamentos.indexOf(this.state.lancamentoDeletar)
                 lancamentos.splice(index, 1);
-                this.setState({lancamentos: lancamentos, showConfirmDialog: false})
+                this.setState({ lancamentos: lancamentos, showConfirmDialog: false })
 
                 messages.mensagemSucesso('Lançamento deletado com sucesso!')
             }).catch(error => {
@@ -91,7 +108,7 @@ class ConsultaLancamentos extends React.Component {
         const confirmDialogFooter = (
             <div>
                 <Button label="Confirma" icon="pi pi-check" onClick={this.deletar} />
-                <Button label="Cancela" icon="pi pi-times" onClick={this.cancelarDelecao} className="p-button-secondary"/>
+                <Button label="Cancela" icon="pi pi-times" onClick={this.cancelarDelecao} className="p-button-secondary" />
             </div>
         );
 
@@ -145,17 +162,18 @@ class ConsultaLancamentos extends React.Component {
                         <div className="bs-component">
                             <LancamentosTable lancamentos={this.state.lancamentos}
                                 deleteAction={this.abrirConfirmacao}
-                                editAction={this.editar} />
+                                editAction={this.editar} 
+                                alterarStatus={this.alterarStatus}/>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <Dialog header="Confirmação" 
-                            visible={this.state.showConfirmDialog} 
-                            style={{ width: '50vw' }}
-                            footer={confirmDialogFooter} 
-                            modal={true} 
-                            onHide={() => this.setState({ showConfirmDialog: false })}>
+                    <Dialog header="Confirmação"
+                        visible={this.state.showConfirmDialog}
+                        style={{ width: '50vw' }}
+                        footer={confirmDialogFooter}
+                        modal={true}
+                        onHide={() => this.setState({ showConfirmDialog: false })}>
                         Confirma a exclusão deste lançamento?
                     </Dialog>
                 </div>
