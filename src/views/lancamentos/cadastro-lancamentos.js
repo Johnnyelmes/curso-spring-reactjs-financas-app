@@ -44,14 +44,14 @@ class CadastroLancamentos extends React.Component {
 
         const { descricao, valor, mes, ano, tipo } = this.state;
         const lancamento = { descricao, valor, mes, ano, tipo, usuario: usuarioLogado.id };
-                    
+
         try {
-                this.service.validar(lancamento)        
-         } catch (erro) {
-            const mensagens = erro.mensagens;   
+            this.service.validar(lancamento)
+        } catch (erro) {
+            const mensagens = erro.mensagens;
             mensagens.forEach(msg => messages.mensagemErro(msg));
-            return false;   
-         }
+            return false;
+        }
 
         this.service
             .salvar(lancamento)
@@ -163,7 +163,7 @@ class CadastroLancamentos extends React.Component {
                         {this.state.atualizando ?
                             (
                                 <button onClick={this.atualizar} type="button" className="btn btn-success">Atualizar</button>
-                            ) :  (
+                            ) : (
                                 <button onClick={this.submit} type="button" className="btn btn-success">Salvar</button>
                             )
                         }
