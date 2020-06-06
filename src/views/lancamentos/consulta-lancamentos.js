@@ -54,7 +54,7 @@ class ConsultaLancamentos extends React.Component {
     }
 
     editar = (id) => {
-        console.log('editar:', id)
+        this.props.history.push(`/cadastro-lancamentos/${id}`)
     }
 
     abrirConfirmacao = (lancamento) => {
@@ -63,6 +63,10 @@ class ConsultaLancamentos extends React.Component {
 
     cancelarDelecao = () => {
         this.setState({showConfirmDialog: false, lancamentoDeletar: {} })
+    }
+
+    preparaFormularioCadastro = () => {
+        this.props.history.push('/cadastro-lancamentos')
     }
 
     deletar = () => {
@@ -105,8 +109,8 @@ class ConsultaLancamentos extends React.Component {
                                     placeholder="Digite o Ano" />
                             </FormGroup>
 
-                            <FormGroup label="Mês: " htmlFor="inpuMes">
-                                <SelectMenu id="inpuMes"
+                            <FormGroup label="Mês: " htmlFor="inputMes">
+                                <SelectMenu id="inputMes"
                                     className="form-control"
                                     value={this.state.mes}
                                     onChange={e => this.setState({ mes: e.target.value })}
@@ -131,7 +135,7 @@ class ConsultaLancamentos extends React.Component {
                             </FormGroup>
 
                             <button onClick={this.buscar} type="button" className="btn btn-success">Buscar</button>
-                            <button type="button" className="btn btn-danger">Cadastrar</button>
+                            <button onClick={this.preparaFormularioCadastro} type="button" className="btn btn-danger">Cadastrar</button>
                         </div >
                     </div >
                 </div >
@@ -152,7 +156,7 @@ class ConsultaLancamentos extends React.Component {
                             footer={confirmDialogFooter} 
                             modal={true} 
                             onHide={() => this.setState({ showConfirmDialog: false })}>
-                        Confirma a exclusão deste lançcamento?
+                        Confirma a exclusão deste lançamento?
                     </Dialog>
                 </div>
             </Card>
