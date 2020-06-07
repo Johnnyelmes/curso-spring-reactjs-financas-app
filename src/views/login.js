@@ -12,22 +12,22 @@ class Login extends React.Component {
         senha: ''
     }
 
-    constructor(){
+    constructor() {
         super();
         this.service = new UsuarioService();
 
     }
 
     entrar = () => {
-        this.service.autenticar({ 
-                email: this.state.email,
-                senha: this.state.senha
-            }).then(response => {
-                LocalStorageService.adicionarItem('_usuario_logado', response.data)
-                this.props.history.push('/home')
-            }).catch(erro => {
-                mensagemErro(erro.response.data)
-            })
+        this.service.autenticar({
+            email: this.state.email,
+            senha: this.state.senha
+        }).then(response => {
+            LocalStorageService.adicionarItem('_usuario_logado', response.data)
+            this.props.history.push('/home')
+        }).catch(erro => {
+            mensagemErro(erro.response.data)
+        })
     }
 
     prepareCadastrar = () => {
@@ -62,8 +62,14 @@ class Login extends React.Component {
                                                     placeholder="Password" />
                                             </FormGroup>
 
-                                            <button onClick={this.entrar} className="btn btn-success">Entrar</button>
-                                            <button onClick={this.prepareCadastrar} className="btn btn-danger">Cadastrar</button>
+                                            <button onClick={this.entrar}
+                                                className="btn btn-success">
+                                                <i className="pi pi-sign-in"></i> Entrar
+                                            </button>
+                                            <button onClick={this.prepareCadastrar}
+                                                className="btn btn-danger">
+                                                <i className="pi pi-plus"></i> Cadastrar
+                                            </button>
                                         </fieldset>
                                     </div>
                                 </div>
